@@ -36,9 +36,9 @@ def signup(request):
             'uid':urlsafe_base64_encode(force_bytes(user.pk)),
             'token':generate_token.make_token(user)
         })
-        email_message=EmailMessage(email_subject,message,settings.EMAIL_HOST_USER,[email],)
-        email_message.send()
-        message.success(request,"check your email and activate the account")
+        #email_message=EmailMessage(email_subject,message,settings.EMAIL_HOST_USER,[email],)
+        #email_message.send()
+        messages.info(request,f"check your screen and activate the account{message}")
         return redirect('/auth/login')
     return render(request,"signup.html")
 
