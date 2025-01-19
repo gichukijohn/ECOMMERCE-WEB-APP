@@ -97,6 +97,7 @@ b{% extends "base.html" %}
         
             
             <button id="btn" type="submit" class="btn btn-success btn-sm btn-block col-md-4">Place Order</button>
+            
         </form>
     </div>
 </div>
@@ -108,52 +109,48 @@ b{% extends "base.html" %}
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
 
+
 <script>
-if (localStorage.getItem('cart') == null) {
-    var cart = {};
-} else {
-    cart = JSON.parse(localStorage.getItem('cart'));
-}
-console.log(cart);
-var sum = 0;
-var totalPrice = 0;
-if ($.isEmptyObject(cart)) {
-    //if object is empty
-    mystr = `<p>Your cart is empty, please add some items to your cart before checking out!</p>`
-    $('#items').append(mystr);
-} else {
-    for (item in cart) {
-        let name = cart[item][1];
-        let qty = cart[item][0];
-        let itemPrice = cart[item][2];
-        sum = sum + qty;
-        totalPrice = totalPrice + qty* itemPrice;
-        
-        mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
-                    ${name}
-                    <div><b> Price : ${itemPrice}</b></div>
-                    <span class="badge badge-primary badge-pill">${qty}</span>
-                </li>`
-        $('#items').append(mystr);
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    } else {
+        cart = JSON.parse(localStorage.getItem('cart'));
     }
-    document.getElementById('totalprice').innerHTML=totalPrice
-
-}
-document.getElementById('totalprice').innerHTML = totalPrice;
-
-$('#itemsJson').val(JSON.stringify(cart));
-
-
-
-{% if thank %}
-alert('Thanks for ordering with us. Your order is is {{id}}. Use it to track your order using our order tracker');
-localStorage.clear();
-document.location = "/";
-{% endif %}
-
-var test = `${totalPrice}`;
-document.getElementById("amt").value = test;
-</script>
+    console.log(cart);
+    var sum = 0;
+    var totalPrice = 0;
+    if ($.isEmptyObject(cart)) {
+        //if object is empty
+        mystr = `<p>Your cart is empty, please add some items to your cart before checking out!</p>`
+        $('#items').append(mystr);
+    } else {
+        for (item in cart) {
+            let name = cart[item][1];
+            let qty = cart[item][0];
+            let itemPrice = cart[item][2] *qty;
+           
+            totalPrice = totalPrice + itemPrice;
+            
+            mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${name}
+                        <div><b> Price : ${itemPrice}</b></div>
+                        <span class="badge badge-primary badge-pill">${qty}</span>
+                    </li>`
+            $('#items').append(mystr);
+        }
+        document.getElementById('totalprice').innerHTML=totalPrice
+    
+    }
+    document.getElementById('totalprice').innerHTML = totalPrice;
+    
+    $('#itemsJson').val(JSON.stringify(cart));
+    
+    
+    
+    var test = `${totalPrice}`;
+    document.getElementById("amt").value = test;
+    
+    </script>
 
 {% endblock body %}
 
